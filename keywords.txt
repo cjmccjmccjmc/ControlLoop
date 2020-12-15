@@ -1,0 +1,63 @@
+#######################################
+# Syntax Coloring Map For ControlLoop
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+on	KEYWORD2
+off	KEYWORD2
+update	KEYWORD2
+get	KEYWORD2
+Compute	KEYWORD2
+setPoint	KEYWORD2
+getSetPoint	KEYWORD2
+getInnerSetPoint	KEYWORD2
+enableBangBang	KEYWORD2
+disableBangBang	KEYWORD2
+isBangBangOn	KEYWORD2
+setBangBangRange	KEYWORD2
+setBangBangRange	KEYWORD2
+getBangBangLower	KEYWORD2
+getBangBangUpper	KEYWORD2
+setControlType	KEYWORD2
+isControlOnOff	KEYWORD2
+isControlStandardPID	KEYWORD2
+isControlCascadePID	KEYWORD2
+getControlType	KEYWORD2
+setSampleTime	KEYWORD2
+setOuterSampleFactor	KEYWORD2
+isOn	KEYWORD2
+setOn	KEYWORD2
+setOff	KEYWORD2
+setOutputLimits	KEYWORD2
+setDirectionIncrease	KEYWORD2
+getDirectionIncrease	KEYWORD2
+setTunings	KEYWORD2
+getKp	KEYWORD2
+getKi	KEYWORD2
+getKd	KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+RelayUpdate	KEYWORD2
+DataSource	KEYWORD2
+ControlLoop	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+INNER	   LITERAL1
+OUTER	   LITERAL1
+ONOFF	   LITERAL1
+STD	   LITERAL1
+CASCADE	   LITERAL1
+
