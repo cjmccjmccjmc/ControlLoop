@@ -23,6 +23,7 @@ class ControlLoop {
 
   public:
     ControlLoop(DataSource*, DataSource*, RelayUpdate*, double);
+    ControlLoop(DataSource* data, RelayUpdate* update, double setpoint) : ControlLoop(NULL, data, update, setpoint) {;};
 
 
     static const bool PID_DEBUG = true;
@@ -68,6 +69,7 @@ class ControlLoop {
     void setDirectionIncrease(int, bool);
     bool getDirectionIncrease(int);
 
+    void setTunings(double p, double i, double d) { setTunings(ControlLoop::INNER, p, i, d);}
     void setTunings(int, double, double, double);
     double getKp(int);
     double getKi(int);
