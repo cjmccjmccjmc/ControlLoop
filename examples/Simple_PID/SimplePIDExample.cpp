@@ -3,10 +3,11 @@
 
 
 /*
- The Simulation parameters
+ THe Simulation parameters
 */
 
 const long SECONDS_TO_ADVANCE_MODEL = 5;
+
 
 /*
     Controls the model.   
@@ -14,7 +15,7 @@ const long SECONDS_TO_ADVANCE_MODEL = 5;
 */
 const double TARGET_LEVEL_LITRES = 10.5;
 const double MAX_WATER_IN_LITRES_MINUTE = 20;
-const double LEAK_OUT_LITRES_PER_MINUTE = 10;
+const double LEAK_OUT_LITRES_PER_MINUTE = 7;
 
 
 
@@ -81,14 +82,17 @@ void setup() {
 
 
   // Preable, output to let use know the current parameters.
-  Serial.println("ControlLoop - On Off example (Leaky Bucket)");
+  Serial.println("ControlLoop - PID example (Leaky Bucket)");
   Serial.printf("Model will advance %ld seconds\n", SECONDS_TO_ADVANCE_MODEL );
   Serial.printf("Target water level is %4.2f L with maxiumm in flow of %2.2f L/min and a leak of %2.2f L/min\n", TARGET_LEVEL_LITRES, MAX_WATER_IN_LITRES_MINUTE, LEAK_OUT_LITRES_PER_MINUTE);
 
   // Set what sort of control loop to use.
   // Note, we have set the starting setPoint when the object was created.
-  theControlLoop.setControlType(ControlLoop::ONOFF);
- 
+  theControlLoop.setControlType(ControlLoop::STD);
+
+  // Set the value tuning values
+  theControlLoop.setTunings(0.8, 0.1, 0.0);
+
   // Turn on the ControlLoop
   theControlLoop.setOn();
 
@@ -98,7 +102,7 @@ void setup() {
 
     // Move the model forward in time and print out the results
     theBucket.advance();
-    Serial.printf("Time %4ld Target %4.1f Actual %4.1f Error %4.1f    Valve open %3.0f%%\n", 
+    Serial.printf("Time %4ld Target %4.1f Actual %6.1f Error %4.1f    Valve open %3.0f%%\n", 
         millis()/1000, 
         TARGET_LEVEL_LITRES, 
         theBucket.getCurrentWaterLevel(), 
