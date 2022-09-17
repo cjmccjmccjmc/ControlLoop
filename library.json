@@ -14,7 +14,15 @@
             "frameworks": "arduino"
         }
     ],
-    "version": "0.1",
+    "version": "1.0",
     "frameworks": "arduino",
-    "platforms": "*"
+    "platforms": "*",
+    "architecture": "*",
+    "author": "cjmccjmccjmc",
+    "maintainer": "cjmccjmccjmc",
+    "sentence": "An all in one, device controller with on/off, PID, and Cascade PID.",
+    "paragraph": "Developed to allow end users to change how the device is controlled.  Abstracts the measured and controlled varibles from underlying process, allowing simpquicker integraton.",
+    "category": "Device Control",
+    "url": "https://github.com/cjmccjmccjmc/ControlLoop.git"
+
 }
