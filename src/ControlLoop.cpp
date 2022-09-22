@@ -43,7 +43,12 @@ void ControlLoop::updateInputs() {
   switch (this->_ControlState) {
   case ControlLoop::CASCADE:
     this->outerIn = _outerDataSource->get();
-    this->innerIn = _innerDataSource->get();
+    // Handle case if CASCADE is set without a second data source. 
+    if (_innerDataSource == NULL) {
+      this->innerIn = this->outerIn;
+    } else {
+      this->innerIn = _innerDataSource->get();
+    }
     break;
     
   case ControlLoop::STD:
