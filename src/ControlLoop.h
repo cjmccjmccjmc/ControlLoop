@@ -112,8 +112,8 @@ class ControlLoop {
 
     bool _isOn = false;
     bool _bangBangOn = false;
-    double _bangBangLower;
-    double _bangBangUpper;
+    double _bangBangLower = 0.0;
+    double _bangBangUpper = 0.0;
 
 
     DataSource *_innerDataSource = NULL;
