@@ -169,6 +169,7 @@ This class implements following algorihtms:
 * On/Off
 * PID
 * Cascade PID
+
 and the following variation to them all:
 * BangBang
 
