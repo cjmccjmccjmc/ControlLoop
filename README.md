@@ -194,7 +194,6 @@ This is two PIDs chained together, with the inner PID measuring the item under c
 
 Using a heat exchange as an example:
 * Heated water is pumped through a heat exchanger pipes into the main water undercontrol.
-* The measured varaible is the 
 * The inner PID takes in the main water tanks tempeture as the measured varaible and outputs the tempeture that second tank.
 * The outer PID uses the second tank's tempeture as as the measured varaible.
 * The outer PID's output will drive the heating control.
