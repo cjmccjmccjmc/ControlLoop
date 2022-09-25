@@ -12,10 +12,11 @@ Leverages [Arduino-PID-Library](https://github.com/br3ttb/Arduino-PID-Library) t
 - [On/Off aka BangBang](#On/OffakaBangBang)
 - [PID](#PID)
 - [Cascade PID](#CascadePID)
-- [API Documentation](#APIDocumentation)
 - [Other](#other)
-    - [Handling Binary Relay](#HandlingBinaryRelay)
-    - [PID Tuning](#PIDtuning)
+    - [Handling Binary Relay  (on/off)](#HandlingBinaryRelay)
+    - [Future topics to cover in Other](#PIDtuning)
+- [API Documentation](#APIDocumentation)
+
 
 
 ## Quick Start
@@ -171,37 +172,96 @@ This class implements following algorihtms:
 and the following variation to them all:
 * BangBang
 
-*  Turns off if above upper bound of setpoint and on if below the lower bound of setpoint.
-* ControlLoop::PID Sets the controller to ues Proportional Integral Derivative (PID) 
-* ControlLoop::CASCADE Uses two PIDs chained together.  
-
 
 ## On/Off 
-This is the simplest algorithm, if the measured value is below the setpoint, the controlled variable is to set to 100% and if its above it, it is set to 0$.
+This is the simplest algorithm, if the measured value is below the setpoint, the controlled variable is to set to 100% and if its above it, it is set to 0%.
 
 To use this, pass ``ControlLoop::ONOFF`` to ``setControlType``.
 
 ## PID
-TODO
-PID
+The default algorithm is the PID
 
-set parameters by calling xx()
+To use this, pass ``ControlLoop::PID`` to ``setControlType``.
 
+Change the PID parameters by calling ``setTunings(p, i, d)``
+
+The PID parameters have a default value for each but it is recommended to set these values to align to the process under control. 
 
 ## Cascade PID
-TODO
+
+This is two PIDs chained together, with the inner PID measuring the item under control.  The inner PID's output is used to change the set point of the outer PID which can control the 2nd item under control.
+
+Using a heat exchange as an example:
+* Heated water is pumped through a heat exchanger pipes into the main water undercontrol.
+* The measured varaible is the 
+* The inner PID takes in the main water tanks tempeture as the measured varaible and outputs the tempeture that second tank.
+* The outer PID uses the second tank's tempeture as as the measured varaible.
+* The outer PID's output will drive the heating control.
+
+To use this, pass ``ControlLoop::CASCADE`` to ``setControlType``.
+
+To change each PID's parameter use:
+   	  setTunings(ControlLoop::INNER, p,i,d);
+   	  setTunings(ControlLoop::OUTER, p,i,d);
 
 ## With BangBang
-TODO
 
-## API Documentation
-TODO
+The above control types, can be further modified by enabling BangBang.  This changes the behavior of the algorithms above by only enaging them them when the measured varaible is within an lower and upper value.
+
+To use this call ``enableBangBang()``
+
+To set the range of values, there are methods that can be called:
+
+       setBangRange(x)	    // sets the range from setpoint - x to setpoint + x
+       or:
+       setBangRange(y,z)    // sets the range from setpoint - y to setpoint + z
+
+The behaviour for ONOFF control with BangBang prevents the algorithm turning on and off as soon as the measured variable crosses over the setpoint.
+
+For PID and Cascade, the behaviour disengages algorithm and uses ON/OFF algorithm until within the range set above.   This benefits the PID-based algorithms as the larger initial error of the measured and setpoint value is not included in the history therefore improving the output result.
+
 
 ## Other
 
-### PID Tuning
-TODO
+### Handling Binary (on/off) 
 
-### Handling Binary Relay
+Pulse Width Modulation 
+
 
 Use Relay class from XXXX
+
+
+    #include "Relay.h"
+
+    const int DEFAULT_WINDOW_SIZE_SECS = 3;
+    const int RELAY_PIN = 3; // Set to the pin to turn on and off.
+
+    Relay relay(RELAY_PIN, DEFAULT_WINDOW_SIZE_SECS);
+
+    
+    class : public RelayUpdate {
+      public:
+    
+        virtual void on() {
+          relay.setRelayMode(relayModeAutomatic);
+        }
+        
+        virtual void off(){
+          relay.setRelayMode(relayModeManual);
+          relay.setDutyCyclePercent(0.0);
+        }
+    
+        virtual void update(double res){
+          relay.setDutyCyclePercent(res);
+        }
+    } rs;
+
+
+
+### Future topics to cover in Other
+* PID tuning
+* Cascade tuning
+
+## API Documentation
+
+
