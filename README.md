@@ -303,18 +303,29 @@ The two other methods, ``on()`` and ``off()``  are called at the start and end o
     };
 
 
-
-
 ### Compute
 
-        bool Compute()
-        bool isOn()
+To enable and disable the  ControlLoop, the three methods are used to turn the control on and off.  The ``setOn()`` must be called before ``Compute()`` is called. as if set to off, the method will not run.
+
         void setOn()
         void setOff()
+        bool isOn()
+
+This method is the main method that turns the selected algorithm.  It will return true when it has been updated the output and recalculated.  It should be called in the ``loop()`` method so it is called regularly.  ControllLoop class will handle the timing of the update so it won't recalculate if insufficient time has passed since the last update.   This time period can be changed by calling ``setSampleTime(int)``.
+
+The method will return true if an updated value has been passed into the RelayUpdate class. 
+
+        bool Compute()
 
 
 ### Setting target value
+
+The target setpoint of the measured value can be changed after the ControlLoop is created by calling the following method. 
+
         void setPoint(double)
+
+Determining the current setPoint can be obtained by the following method with the special case method of ``getInnerSetPoint()`` is only for when using the Cascade PID.  This additional method is for information as the the inner PID's output controls the setPoint for the outer PID.
+
         double getSetPoint()
         double getInnerSetPoint()
 
@@ -322,18 +333,19 @@ The two other methods, ``on()`` and ``off()``  are called at the start and end o
         static const int ONOFF
         static const int STD
         static const int CASCADE
-
         void setControlType(int)
+
+        int getControlType()
         bool isControlOnOff()
         bool isControlStandardPID()
         bool isControlCascadePID()
-        int getControlType()
 
 
 ### Enabling BangBang
         void enableBangBang()
         void disableBangBang()
         bool isBangBangOn()
+
         void setBangBangRange(double x)
         void setBangBangRange(double, double)
         double getBangBangLower()
@@ -345,7 +357,7 @@ The two other methods, ``on()`` and ``off()``  are called at the start and end o
         static const int INNER
         static const int OUTER
 
-        void setTunings(double p, double i, double d)
+        void setTunings(double, double, double)
         void setTunings(int, double, double, double)
         double getKp(int)
         double getKi(int)
