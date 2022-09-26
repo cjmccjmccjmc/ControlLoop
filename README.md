@@ -225,13 +225,9 @@ For PID and Cascade, the behavior disengages algorithm and uses ON/OFF algorithm
 
 ### Handling Binary (on/off) 
 
-You will 
+To handle outputs that can only be on or off, such as a heater, you use Pulse Width Modulation (PWM) to turn on the output for a period of time.   To do this use the Relay library that is included as standard.  
 
-
-Pulse Width Modulation 
-
-
-Use Relay class from XXXX
+An example of connecting the RelayUpdate to the Relay class is below.  The RELAY_PIN is the output that controls the on/off and the DEFAULT_WINDOW_SIZE_SECS is the cycle time for the PWM.   As an example,  if output is 0.5, the output will be high for 1.5 seconds and low for 1.5 seconds.
 
 
     #include "Relay.h"
@@ -259,6 +255,14 @@ Use Relay class from XXXX
         }
     } rs;
 
+    void setup() {
+      // ... Other setup code
+
+      loop.setOutputLimits(ControlLoop::INNER, 0.0, 1.0);
+
+      // ... Other setup code
+    }
+
 
 
 ### Future topics to cover in Other
@@ -267,10 +271,39 @@ Use Relay class from XXXX
 
 ## API Documentation
 
-
 ### Constructors
+        ControlLoop(DataSource*, RelayUpdate*, double)
         ControlLoop(DataSource*, DataSource*, RelayUpdate*, double)
-        ControlLoop(DataSource* data, RelayUpdate* update, double setpoint)
+
+The top constructor is for ONOFF and PID, if the algorithm is set to CASCADE it uses the single data source for both inner and outer PIDs.  The second constructor has the first DataSource class for the Outer PID and the second one for the inner PID.
+
+The RelayUpdate class is used for the controlled variable and the last parameter, the double, is the initial setpoint for the targeted variable.  
+
+### Data Source and Relay Update classes
+
+The DataSource base class has one variable which is the current value of the measured variable.   This can be any unit, as long as it is returned as a double.
+
+
+    class DataSource {
+      public:
+        virtual double get() = 0;
+    };
+
+
+The RelayUpdate is used to set the controlled variable, it is the class used to send back the result of the algorithm.  The main method is ``update()`` that is called each time the selected algorithm changes its output value.   
+
+The two other methods, ``on()`` and ``off()``  are called at the start and end of the ControlLoop when ``setOn()`` and ``setOff()`` are called.   The ``off()`` method's implementation needs to at a minimum set what is being driven to a safe state.  E.g. for a heater, it should be turned off. 
+
+
+    class RelayUpdate {
+      public:
+        virtual void on() = 0;
+        virtual void off() = 0;
+        virtual void update(double) = 0;
+    };
+
+
+
 
 ### Compute
 
