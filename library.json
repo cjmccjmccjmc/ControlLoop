@@ -21,7 +21,7 @@
     "author": "cjmccjmccjmc",
     "maintainer": "cjmccjmccjmc",
     "sentence": "An all in one, device controller with on/off, PID, and Cascade PID.",
-    "paragraph": "Developed to allow end users to change how the device is controlled.  Abstracts the measured and controlled varibles from underlying process, allowing simpquicker integraton.",
+    "paragraph": "Developed to allow end users to change how the device is controlled.  Abstracts the measured and controlled variables from underlying process, allowing simple and quicker integration with your processes.",
     "category": "Device Control",
     "url": "https://github.com/cjmccjmccjmc/ControlLoop.git"
 
